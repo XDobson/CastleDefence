@@ -1,0 +1,435 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    user-select: none;
+    font-family: 'Frijole', cursive;
+}
+body {
+    overflow-x: hidden;
+    margin-bottom: 100px;
+    background-image: url(image/shopFloor.jpeg);
+}
+main {
+    width: 90%;
+    height: 90vh;
+}
+/* Disables anti-aliasing */
+img {
+    image-rendering: pixelated;
+}
+h1 {
+    font-family: 'My Soul', cursive;
+}
+h5 {
+    font-size: 1.3vw;
+}
+hr{
+    border: black solid 2px;
+}
+#waveCheat{
+    height: 10%;
+    width: 100%;
+}
+#waveCheat input, #waveCheat button {
+    visibility: hidden;
+}
+
+/* slightly transparent red wave counter in the sky */
+#waveCounter {
+    position: absolute;
+    z-index: 3;
+    color: rgba(255, 0, 0, 0.159);
+    font-size: 6vw;
+    letter-spacing: 3px;
+    left: 15vw;
+    top: 10vh;
+}
+
+/* Health bar */
+#maxHp {
+    position: absolute;
+    z-index: 99;
+    right: 1vw;
+    bottom: 1vh;
+    border: black 5px solid;
+    border-radius: 10px;
+    width: 30vw;
+    height: 3vh;
+    background-color: #f94a4a;
+}
+#Hp {
+    height: 100%;
+    width: 100%;
+    background-color: #4bf97f;
+    z-index: 100;
+}
+
+/* Handles sky and cloud animation, and sun */
+#sky {
+    position: absolute;
+    width: 100%;
+    height: 40vh;
+    top: 0;
+    background-color: #b1eff1;
+}
+#sky img {
+    position: absolute;
+    top: 20%;
+    right: 110%;
+    width: 15%;
+    animation: cloudScroll 60s infinite linear;
+    z-index: 5;
+}
+#sun {
+    position: absolute;
+    width: 20%;
+    right: -7.5%;
+    top: -7.5%;
+    z-index: 1;
+}
+
+/* green field and grass and the castle*/
+#field {
+    position: absolute;
+    width: 100%;
+    height: 60vh;
+    bottom: 0;
+    background-color: #c1ef7c;
+}
+#castle {
+    position: absolute;
+    width: 40%;
+    right: -20%;
+    bottom: 20%;
+    z-index: 3;
+}
+#grass1, #grass2, #grass3, #grass4, #grass5, #grass6, #grass7, #grass7, #grass8, #grass9 {
+    position: absolute;
+    width: 6%;
+}
+#grass1 {
+    left: 10%;
+    bottom: 20%;
+}
+#grass2 {
+    left: 34%;
+    bottom: 10%;
+}
+#grass3 {
+    left: 27%;
+    bottom: 24%;
+}
+#grass4 {
+    left: 64%;
+    bottom: 14%;
+}
+#grass5 {
+    left: 70%;
+    bottom: 50%;
+}
+#grass6 {
+    left: 88%;
+    bottom: 5%;
+}
+#grass7 {
+    left: 58%;
+    bottom: 55%;
+}
+#grass8 {
+    left: 18%;
+    bottom: 54%;
+}
+#grass9 {
+    left: 78%;
+    bottom: 70%;
+}
+
+/* handles enemies and their styles/animation */
+.enemy {
+    z-index: 2;
+    position: absolute;
+    width: 7.5%;
+    animation: approach 10s 1 linear forwards;
+    image-rendering: pixelated;
+    animation-play-state: unset;
+}
+
+/* The starting screen and all other popup screens like the intermission and failure */
+#startingScreen {
+    position: absolute;
+    z-index: 900;
+    visibility: visible;
+    height: 50%;
+    width: 50%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+    background-color: rgba(255, 0, 0, 0.25);
+    font-size: 2vw;
+    border-radius: 50px;
+
+    /* visibility: hidden; */
+}
+#startButt {
+    border-radius: 50px;
+    font-size: 3vw;
+}
+/* Intermission screen */
+#betweenWave {
+    position: absolute;
+    z-index: 900;
+    visibility: visible;
+    min-height: 50%;
+    min-width: 50%;
+    padding: 2%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+    background-color: rgba(255, 0, 0, 0.25);
+    font-size: 2vw;
+    border-radius: 50px;
+    visibility: hidden;
+}
+#goblinDiv{
+    display: flex;
+}
+#goblinDiv img{
+    margin-right: 4vw;
+    width: 15vw;
+}
+#goblinDiv div {
+    display: flex;
+    flex-direction: column;
+}
+/* Failure screen */
+#loseScreen {
+    position: absolute;
+    z-index: 900;
+    visibility: hidden;
+    height: 50%;
+    width: 50%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+    background-color: rgba(255, 0, 0, 0.25);
+    font-size: 2vw;
+    border-radius: 50px;
+}
+#tryAgainButt {
+    border-radius: 50px;
+    font-size: 3vw;
+
+}
+
+/* The shop and upgrades */
+footer {
+    padding-top: 100vh;
+}
+#upgrades {
+    display: flex;
+    justify-content: space-evenly;
+    flex-shrink: 0;
+    align-items: center;
+    margin: 10px;
+    flex-wrap: wrap;
+}
+#upgrades img {
+    width: 8vw;
+}
+footer h1 {
+    padding-top: 10px;
+    text-align: center;
+    font-size: 10vh;
+    color: orange;
+}
+footer h6 {
+    text-align: center;
+    color: #efe57c;
+    font-size: 5vh;
+}
+footer div div img {
+    margin: 20px;
+}
+footer div div h2 {
+    text-align: center;
+    color: #b1eff1;
+    margin: 20px;
+}
+footer div div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.29);
+}
+footer div div button {
+    width: 6vw;
+    margin: 20px;
+}
+
+/* Archer sprites */
+#bowBoys {
+    position: absolute;
+    width: 30vw;
+    height: 50vh;
+    right: -5%;
+    bottom: 5%;
+    z-index: 3;
+    visibility: hidden;
+}
+.bow1, .bow2, .bow3, .bow4, .bow5, .bow6, .bow7, .bow8, .bow9, .bow10 {
+    position: absolute;
+    height: 100px;
+    z-index: 99;
+}
+.bow1 {
+    top: 25.26%;
+    left: 10.4372%;
+}
+.bow2 {
+    top: 72.5%;
+    left: 42.25%;
+}
+.bow3 {
+    top: 82.1%;
+    left: 10.4372%;
+}
+.bow4 {
+    top: 50.26%;
+    left: 1.4372%;
+}
+.bow5 {
+    top: 32.26%;
+    left: 47.4372%;
+}
+.bow6 {
+    top: 65.26%;
+    left: 20.4372%;
+}
+.bow7 {
+    top: 69.26%;
+    left: 4.4372%;
+}
+.bow8 {
+    top: 82.26%;
+    left: 30.4372%;
+}
+.bow9 {
+    top: 10.26%;
+    left: 19.432%;
+}
+.bow10 {
+    top: 80.26%;
+    left: 55.4372%;
+}
+
+/* Handles powerup animation and style */
+.powerup {
+    position: absolute;
+    top: 1vh;
+    width: 8vw;
+    z-index: 100;
+    animation: fall 4s cubic-bezier(0.59, 0.1, 0.73, 0.55) forwards;
+}
+#powerUpDiv {
+    position: absolute;
+    z-index: 900;
+    bottom: 30px;
+    left: 25px;
+    text-align: center;
+    animation: mario-invincibleStar 3s forwards infinite;
+    visibility: hidden;
+}
+#powerUpCounter {
+    font-family: 'Frijole', cursive;
+    font-size: 5vw;
+}
+#powerUpText {
+    font-size: 3vw;
+}
+#powerUpDesc {
+    font-family: 'Frijole', cursive;
+    font-size: 0.9vw;
+}
+
+/* Animations */
+@keyframes fall {
+    0% {
+        transform: none;
+    }
+
+    99% {
+        transform: translateY(100vh);
+    }
+
+    100% {
+        transform: translateY(100vh);
+        visibility: hidden;
+    }
+}
+@keyframes cloudScroll {
+    0% {
+        transform: translateX(0)
+    }
+
+    100% {
+        transform: translateX(1100%)
+    }
+}
+@keyframes approach {
+    0% {
+        transform: translateX(0)
+    }
+
+    100% {
+        transform: translateX(1100%)
+    }
+}
+@keyframes mario-invincibleStar {
+    0% {
+        color: red;
+    }
+
+    14% {
+        color: orange;
+    }
+
+    28% {
+        color: yellow;
+    }
+
+    42% {
+        color: green;
+    }
+
+    56% {
+        color: blue;
+    }
+
+    70% {
+        color: indigo;
+    }
+
+    88% {
+        color: violet;
+    }
+
+    100% {
+        color: red;
+    }
+}

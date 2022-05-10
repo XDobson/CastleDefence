@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Castle Defense</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Frijole&family=My+Soul&display=swap" rel="stylesheet">
+
+<body>
+    <!-- HP Bar -->
+    <div id="maxHp">
+        <div id="Hp"></div>
+    </div>
+
+    <!-- Wave Counter -->
+    <h3 id="waveCounter">Wave: 0</h3>
+
+    <!-- Tutorial Screen -->
+    <div id="startingScreen">
+        <h1>Castle Defense</h1>
+        <h5>Click the field to fire arrows at the enemy.</h5>
+        <h5>Scroll down to find the shop. </h5>
+        <h5>Buy upgrades to do more damage or to hire men to fire arrows for you.</h5>
+        <div id="waveCheat" onclick="waveCheat()">
+        <input id="input" type="number" placeholder="Input wave number">
+        <button onclick="waveSkip()" id="waveCheatButton">Submit</button>
+        </div>
+        <br>
+        <button id="startButt" onclick="removeStartingScreen()">Start</button>
+        <h5>Keyboard Power-ups will sometimes appear. They allow you to use your keyboard to damage enemies.</h5>
+    </div>
+
+    <div id="betweenWave">
+        <h1>Wave Complete. <br> But more are coming..</h1>
+        <br>
+
+        <div id="goblinDiv">
+            <img src="image/Gobo6.png" alt="Grimlock">
+
+            <div>
+                <h5>Grimlock Says:</h5>
+                <hr onclick="changeGold(999)">
+                <h5 id="splashText">Insert Splash Text Here</h5>
+            </div>
+
+        </div>
+
+        <button id="startButt" onclick="jumperCable()">Next Wave</button>
+    </div>
+
+    <!-- Sun -->
+    <img id="sun" src="image/sun.png" onclick="debug()" alt="sun">
+
+    <!-- Powerup Display -->
+    <div id="powerUpDiv">
+        <h1 id="powerUpText">POWER - UP</h1>
+        <h1 id="powerUpDesc">(smack keyboard monkey brain)</h1>
+        <h1 id="powerUpCounter">10</h1>
+    </div>
+
+    <!-- The whole grassy area where enemies spawn -->
+    <section onclick="damageEnemy()" id="field">
+        <img id="castle" src="image/castle.png" alt="castle">
+
+
+        <!-- Grass sprites -->
+        <img id="grass1" src="image/grass.png" alt="grass">
+        <img id="grass2" src="image/grass.png" alt="grass">
+        <img id="grass3" src="image/grass.png" alt="grass">
+        <img id="grass4" src="image/grass.png" alt="grass">
+        <img id="grass5" src="image/grass.png" alt="grass">
+        <img id="grass6" src="image/grass.png" alt="grass">
+        <img id="grass7" src="image/grass.png" alt="grass">
+        <img id="grass8" src="image/grass.png" alt="grass">
+        <img id="grass9" src="image/grass.png" alt="grass">
+    </section>
+
+    <!-- Lose screen when hp reaches 0 -->
+    <div id="loseScreen">
+        <h1>Loser</h1>
+        <h5>YOU FOOLISH BOY</h5>
+        <h5>How could you ave ruined that much of the game</h5>
+        <h5>you shouldn't even try again you failure</h5>
+        <br>
+        <button id="tryAgainButt" onclick="removeLoseScreen()">Start</button>
+        <h5>fool</h5>
+    </div>
+
+    <!-- Displays archers -->
+    <div id="bowBoys">
+        <img class="bow1" src="image/GoodBowMan.png" alt="">
+        <img class="bow2" src="image/GoodBowMan.png" alt="">
+        <img class="bow3" src="image/GoodBowMan.png" alt="">
+        <img class="bow4" src="image/GoodBowMan.png" alt="">
+        <img class="bow5" src="image/GoodBowMan.png" alt="">
+        <img class="bow6" src="image/GoodBowMan.png" alt="">
+        <img class="bow7" src="image/GoodBowMan.png" alt="">
+        <img class="bow8" src="image/GoodBowMan.png" alt="">
+        <img class="bow9" src="image/GoodBowMan.png" alt="">
+        <img class="bow10" src="image/GoodBowMan.png" alt="">
+    </div>
+
+    <!-- Upgrade Shop -->
+    <footer>
+
+        <h1>Shop</h1>
+        <h6 id="playerGold">Gold: 0</h6>
+        <!-- Holds all upgrades -->
+        <div id="upgrades">
+
+            <!-- Each of these are an individual upgrade -->
+            <div>
+                <img src="image/BowGrade.png" alt="upgrade image">
+                <h2>Upgrade Bows</h1>
+                    <h2 id="bowLevel">Level: 1</h1>
+                        <h2>20% more dmg <br> per level</h1>
+                            <button id="bowButton" onclick="tryUpgradeBow()">Price: 15g</button>
+            </div>
+            <div>
+                <img src="image/WallUpgrade.png" alt="upgrade image">
+                <h2>Heal Castle</h1>
+                    <h2 id="castleLevel">Heals Castle <br> to Max</h1>
+                        <button id="castleButton" onclick="healCastle()">Price: 20g</button>
+            </div>
+            <div>
+                <img src="image/GoodBowMan.png" alt="upgrade image">
+                <h2>Hire Archer</h1>
+                    <h2 id="hiredArchers">Archers: 0</h1>
+                        <button id="hireArchersButton" onclick="hireArcher()">Price: 20g</button>
+            </div>
+            <div>
+                <img src="image/upgradedBowMan.png" alt="upgrade image">
+                <h2 id="archerUpgradeTitle">LOCKED</h1>
+                    <h2 id="archerUpLevel">Level: LOCKED</h1>
+                        <button id="archerUpgradeButton" onclick="upgradeArcher()">XXX</button>
+            </div>
+            <div>
+                <img src="image/Coin.png" alt="upgrade image">
+                <h2>Gold Multiplier</h1>
+                    <h2 id="goldLevel">Level: 1</h1>
+                        <button id="goldUpgradeButton" onclick="goldUpgrade()">Price: 20</button>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Sky section -->
+    <section id="sky"><img id="cloud" src="image/cloud.png" alt="cloud"></section>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
