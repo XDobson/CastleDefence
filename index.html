@@ -66,6 +66,7 @@
     <!-- The whole grassy area where enemies spawn -->
     <section onclick="damageEnemy()" id="field">
         <img id="castle" src="image/castle.png" alt="castle">
+        <h6 class="goldHUD">Gold: 0</h6>
 
 
         <!-- Grass sprites -->
@@ -118,13 +119,13 @@
                 <img src="image/BowGrade.png" alt="upgrade image">
                 <h2>Upgrade Bows</h1>
                     <h2 id="bowLevel">Level: 1</h1>
-                        <h2>20% more dmg <br> per level</h1>
+                        <h2>10% more dmg <br> per level</h1>
                             <button id="bowButton" onclick="tryUpgradeBow()">Price: 15g</button>
             </div>
             <div>
                 <img src="image/WallUpgrade.png" alt="upgrade image">
                 <h2>Heal Castle</h1>
-                    <h2 id="castleLevel">Heals Castle <br> to Max</h1>
+                    <h2 id="castleLevel">Heals Castle <br> to Max HP</h1>
                         <button id="castleButton" onclick="healCastle()">Price: 20g</button>
             </div>
             <div>
