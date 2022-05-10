@@ -250,6 +250,7 @@ hr{
 /* The shop and upgrades */
 footer {
     padding-top: 100vh;
+    z-index: 5;
 }
 #upgrades {
     display: flex;
@@ -354,12 +355,12 @@ footer div div button {
     position: absolute;
     top: 1vh;
     width: 8vw;
-    z-index: 100;
+    z-index: 4;
     animation: fall 4s cubic-bezier(0.59, 0.1, 0.73, 0.55) forwards;
 }
 #powerUpDiv {
     position: absolute;
-    z-index: 900;
+    z-index: 99;
     bottom: 30px;
     left: 25px;
     text-align: center;

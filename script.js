@@ -80,28 +80,29 @@ function removeStartingScreen() {
 // Restarts the game on a loss
 function removeLoseScreen() {
     // Defaults all vars
-    window.waveNumber = 0           
-    window.enemyModifier = 1.1      
-    window.enemyBalance = 0         
-    window.bowLevel = 1             
-    window.bowLevelDisplay = 1      
-    window.bowUpgradePrice = 15     
-    window.playerGold = 0        
-    window.castleHp = 100           
-    window.castleHealPrice = 20     
+    window.waveNumber = 0
+    window.enemyModifier = 1.1
+    window.enemyBalance = 0
+    window.bowLevel = 1
+    window.bowLevelDisplay = 1
+    window.bowUpgradePrice = 15
+    window.playerGold = 0
+    window.castleHp = 100
+    window.castleHealPrice = 20
     window.isDead = false       //Only var that changes from default
-    window.archers = 0              
-    window.archerUpgrade = 0        
-    window.archerUpgradeLevel = 0   
-    window.archerUpgradePrice = 0   
-    window.archerUpgradeScaling = 0 
-    window.potato = 0               
-    window.intermission = true      
-    window.goldModifier = 1   
+    window.archers = 0
+    window.archerUpgrade = 0
+    window.archerUpgradeLevel = 0
+    window.archerUpgradePrice = 0
+    window.archerUpgradeScaling = 0
+    window.potato = 0
+    window.intermission = true
+    window.goldModifier = 1
     //Resets all visuals      
     document.getElementById("loseScreen").style.visibility = "hidden"
     document.getElementById("Hp").style.width = "100%"
     document.getElementById('playerGold').innerText = "Gold: " + window.playerGold
+    document.getElementsByClassName('goldHUD')[0].innerText = "Gold: " + window.playerGold
     document.getElementById("bowButton").innerText = "Price: 15"
     document.getElementById("bowLevel").innerText = "Level: 1"
     document.getElementById("goldLevel").innerText = "Level: 1"
@@ -111,7 +112,7 @@ function removeLoseScreen() {
     document.getElementById("archerUpgradeButton").innerText = "XXX"
     document.getElementById("hireArchersButton").innerText = "Price: 20"
     document.getElementById("hiredArchers").innerText = "Archers: 0"
-    document.getElementById("castleButton").innerText = "Price: "+window.castleHealPrice+"g"
+    document.getElementById("castleButton").innerText = "Price: " + window.castleHealPrice + "g"
     enemies = Array.from(document.getElementsByClassName("enemy"))
     for (item in enemies) {
         enemies[item].remove()
@@ -346,7 +347,7 @@ function powerupLoop() {
         console.log("====\nTried To Spawn Powerup!\n====");
         if (window.intermission == false && window.isDead == false) {
             spawnPowerup()
-        } else {powerupLoop()}
+        } else { powerupLoop() }
     }, ((Math.random() * 20000) + 15000))
 }
 powerupLoop()
@@ -401,9 +402,9 @@ function tryUpgradeBow() {
 function healCastle() {
     if (window.playerGold >= window.castleHealPrice && window.isDead == false) {
         changeGold(-window.castleHealPrice)
-        window.castleHealPrice+=5
+        window.castleHealPrice += 5
         window.castleHp = 100
-        document.getElementById("castleButton").innerText = "Price: "+window.castleHealPrice+"g"
+        document.getElementById("castleButton").innerText = "Price: " + window.castleHealPrice + "g"
         document.getElementById("Hp").style.width = "100%"
     }
 }
@@ -497,7 +498,7 @@ function upgradeArcher(special) {
             }
         }
     }
-    console.log("Archer Delay is currently "+ (3500 - window.archerUpgrade) + "ms at Level "+ window.archerUpgradeLevel);
+    console.log("Archer Delay is currently " + (3500 - window.archerUpgrade) + "ms at Level " + window.archerUpgradeLevel);
 }
 function goldUpgrade() {
     if (window.isDead == false) {
