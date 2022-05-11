@@ -6,7 +6,7 @@ let sprites = [
     { name: "image/enemies/Horse.png", price: 3, hp: 15, reward: 3 },
     { name: "image/enemies/Knight.png", price: 4, hp: 20, reward: 4 },
     { name: "image/enemies/Knight_Shield.png", price: 5, hp: 24, reward: 4 },
-    { name: "image/enemies/Knight_Sword.png", price: 5, hp: 28, reward: 5 },
+    { name: "image/enemies/Knight_Sword.png", price: 5, hp: 28, reward: 4 },
     { name: "image/enemies/Knight_Gold.png", price: 10, hp: 35, reward: 8 },]
 
 // Grimlock says:
@@ -32,6 +32,14 @@ let splashText = [
     "I'm hungry.",
     "All the enemy sprites were made by Dwight Dubert.",
     "Ping Pong Paddle!",
+    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "Ya like jazz?",
+    "GiT gUd.",
+    "What did you have for breakfast today?",
+    "Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare Nightmare",
+    "Wow, not dead yet huh.",
+    "*miscellaneous ape noises*",
+    "What do you call a bird without feathers?"
 ]
 
 //Global variable 
@@ -46,6 +54,7 @@ window.castleHp = 100           //castle hp
 window.castleHealPrice = 20     //How much it costs to heal castle
 window.isDead = true            //have you died?
 window.archers = 0              //number of archers
+window.archerHiringCost = 20
 window.archerUpgrade = 0        //how much faster do archers shoot / archer level
 window.archerUpgradeLevel = 0   //How many times archers have been upgraded
 window.archerUpgradePrice = 0   //Cost to upgrade archers again
@@ -68,11 +77,11 @@ setInterval(() => {
 
 // Puts game in motion and removes starting screen
 function removeStartingScreen() {
-    window.intermission = false
     document.getElementById("startingScreen").style.visibility = "hidden"
     document.getElementById('playerGold').innerText = "Gold: " + window.playerGold
     document.getElementsByTagName("input")[0].style.visibility = "hidden"
     document.getElementById("waveCheatButton").style.visibility = "hidden"
+    window.intermission = false
     window.isDead = false
     nextWave()
 }
@@ -82,7 +91,7 @@ function removeLoseScreen() {
     // Defaults all vars
     window.waveNumber = 0
     window.enemyModifier = 1.1
-    window.enemyBalance = 0
+    window.enemyBalance = 10
     window.bowLevel = 1
     window.bowLevelDisplay = 1
     window.bowUpgradePrice = 15
@@ -90,13 +99,13 @@ function removeLoseScreen() {
     window.castleHp = 100
     window.castleHealPrice = 20
     window.isDead = false       //Only var that changes from default
+    window.intermission = false //Other var that changes from default
     window.archers = 0
     window.archerUpgrade = 0
     window.archerUpgradeLevel = 0
     window.archerUpgradePrice = 0
     window.archerUpgradeScaling = 0
     window.potato = 0
-    window.intermission = true
     window.goldModifier = 1
     //Resets all visuals      
     document.getElementById("loseScreen").style.visibility = "hidden"
@@ -185,8 +194,11 @@ function nextWave() {
     handleEnemies()
 }
 function debug() {
-    nextWave()
+    if (window.isDead == false && window.intermission == false){
+        nextWave()
+    }
 }
+
 function handleEnemies() {
     // The following does this: Checks to make sure enemy has points left, tries a random enemy on the spawn list, either spawns them and takes that much money away from the balance or doesn't spawn them and tries again. Once it cant spawn any, it starts the next function
     if (window.enemyBalance > 0) {
@@ -198,9 +210,9 @@ function handleEnemies() {
                 console.log("Enemy bought " + sprites[item].name.replace("image/enemies/", '').replace(".png", '') + " (Costs " + sprites[item].price + ")");
             }
         }
-        speedUp = 30 * window.waveNumber
-        if (speedUp > 3500) {
-            speedUp = 3500
+        speedUp = 100 * window.waveNumber
+        if (speedUp > 4000) {
+            speedUp = 4000
         }
         setTimeout(handleEnemies, Math.floor(Math.random() * 4500) - speedUp)
     } else {
@@ -410,14 +422,16 @@ function healCastle() {
 }
 // Hires a new archer to do damage for you
 function hireArcher() {
-    if (window.playerGold >= 20 && window.archers < 10 && window.isDead == false) {
+    if (window.playerGold >= window.archerHiringCost && window.archers < 10 && window.isDead == false) {
         if (window.archerUpgrade == 0) {
             upgradeArcher(true)
         }
-        changeGold(-20)
+        changeGold(-window.archerHiringCost)
+        window.archerHiringCost += 5
         window.archers += 1
         document.getElementsByClassName("bow" + window.archers)[0].style.visibility = "visible";
         document.getElementById("hiredArchers").innerText = "Archers: " + window.archers
+        document.getElementById("hireArchersButton").innerText = "Price: "+window.archerHiringCost
         archerFires()
     }
     if (window.archers == 10) {
@@ -450,25 +464,25 @@ function upgradeArcher(special) {
             changeGold(-10)
         } else if (window.archerUpgrade == 1000 && window.playerGold >= 20) {
             document.getElementById("archerUpLevel").innerText = "Level: 2"
-            document.getElementById("archerUpgradeButton").innerText = "Price: 30g"
-            window.archerUpgrade += 500
-            window.archerUpgradeLevel += 1
-            changeGold(-20)
-        } else if (window.archerUpgrade == 1500 && window.playerGold >= 30) {
-            document.getElementById("archerUpLevel").innerText = "Level: 3"
             document.getElementById("archerUpgradeButton").innerText = "Price: 40g"
             window.archerUpgrade += 500
             window.archerUpgradeLevel += 1
-            changeGold(-30)
-        } else if (window.archerUpgrade == 2000 && window.playerGold >= 40) {
-            document.getElementById("archerUpLevel").innerText = "Level: 4"
-            document.getElementById("archerUpgradeButton").innerText = "Price: 50g"
+            changeGold(-20)
+        } else if (window.archerUpgrade == 1500 && window.playerGold >= 40) {
+            document.getElementById("archerUpLevel").innerText = "Level: 3"
+            document.getElementById("archerUpgradeButton").innerText = "Price: 65g"
             window.archerUpgrade += 500
             window.archerUpgradeLevel += 1
             changeGold(-40)
-        } else if (window.archerUpgrade == 2500 && window.playerGold >= 50) {
+        } else if (window.archerUpgrade == 2000 && window.playerGold >= 65) {
+            document.getElementById("archerUpLevel").innerText = "Level: 4"
+            document.getElementById("archerUpgradeButton").innerText = "Price: 80g"
+            window.archerUpgrade += 500
+            window.archerUpgradeLevel += 1
+            changeGold(-65)
+        } else if (window.archerUpgrade == 2500 && window.playerGold >= 80) {
             document.getElementById("archerUpLevel").innerText = "Level: 5"
-            document.getElementById("archerUpgradeButton").innerText = "Price: 60g"
+            document.getElementById("archerUpgradeButton").innerText = "Price: 100g"
             document.getElementsByClassName("bow1")[0].setAttribute("src", "image/upgradedBowMan.png")
             document.getElementsByClassName("bow2")[0].setAttribute("src", "image/upgradedBowMan.png")
             document.getElementsByClassName("bow3")[0].setAttribute("src", "image/upgradedBowMan.png")
@@ -479,15 +493,15 @@ function upgradeArcher(special) {
             document.getElementsByClassName("bow8")[0].setAttribute("src", "image/upgradedBowMan.png")
             document.getElementsByClassName("bow9")[0].setAttribute("src", "image/upgradedBowMan.png")
             document.getElementsByClassName("bow10")[0].setAttribute("src", "image/upgradedBowMan.png")
-            changeGold(-50)
+            changeGold(-80)
             window.archerUpgrade += 500
             window.archerUpgradeLevel += 1
-            window.archerUpgradePrice = 60
+            window.archerUpgradePrice = 100
             window.archerUpgradeScaling = 500
         } else if (window.archerUpgrade > 2500 && window.playerGold >= window.archerUpgradePrice && window.archerUpgradeLevel != 11) {
             changeGold(-window.archerUpgradePrice)
             window.archerUpgradeScaling = window.archerUpgradeScaling / 3
-            window.archerUpgradePrice += 15
+            window.archerUpgradePrice += 20
             window.archerUpgradeLevel += 1
             window.archerUpgrade += window.archerUpgradeScaling
             document.getElementById("archerUpLevel").innerText = "Level: " + window.archerUpgradeLevel

@@ -16,6 +16,7 @@ main {
 /* Disables anti-aliasing */
 img {
     image-rendering: pixelated;
+    user-select: none;
 }
 h1 {
     font-family: 'My Soul', cursive;
@@ -110,7 +111,7 @@ hr{
     position: absolute;
     right: 1vw;
     top: 50vh;
-    z-index: 3;
+    z-index: 4;
 }
 #grass1, #grass2, #grass3, #grass4, #grass5, #grass6, #grass7, #grass7, #grass8, #grass9 {
     position: absolute;
@@ -209,14 +210,18 @@ hr{
     border-radius: 50px;
     visibility: hidden;
 }
+#splashText{
+    user-select:text;
+}
 #goblinDiv{
     display: flex;
     width: 100%;
+    justify-content: space-evenly;
 }
 #goblinDiv img{
     aspect-ratio: 1;
     margin-right: 1vw;
-    width: 50%;
+    min-width: 30%;
 }
 #goblinDiv div {
     display: flex;
@@ -307,7 +312,7 @@ footer div div button {
 .bow1, .bow2, .bow3, .bow4, .bow5, .bow6, .bow7, .bow8, .bow9, .bow10 {
     position: absolute;
     height: 100px;
-    z-index: 99;
+    z-index: 3;
 }
 .bow1 {
     top: 25.26%;
