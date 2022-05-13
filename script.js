@@ -44,7 +44,6 @@ let splashText = [
 
 //Global variable 
 window.waveNumber = 0           //counts waves
-window.enemyModifier = 1.1      //helps enemies spawn
 window.enemyBalance = 0         //how many enemies can spawn
 window.bowLevel = 1             //bow dmg modifier
 window.bowLevelDisplay = 1      //bow display level
@@ -54,7 +53,7 @@ window.castleHp = 100           //castle hp
 window.castleHealPrice = 20     //How much it costs to heal castle
 window.isDead = true            //have you died?
 window.archers = 0              //number of archers
-window.archerHiringCost = 20
+window.archerHiringCost = 20    //how much it costs to buy an archer
 window.archerUpgrade = 0        //how much faster do archers shoot / archer level
 window.archerUpgradeLevel = 0   //How many times archers have been upgraded
 window.archerUpgradePrice = 0   //Cost to upgrade archers again
@@ -90,7 +89,6 @@ function removeStartingScreen() {
 function removeLoseScreen() {
     // Defaults all vars
     window.waveNumber = 0
-    window.enemyModifier = 1.1
     window.enemyBalance = 10
     window.bowLevel = 1
     window.bowLevelDisplay = 1
@@ -98,7 +96,7 @@ function removeLoseScreen() {
     window.playerGold = 0
     window.castleHp = 100
     window.castleHealPrice = 20
-    window.isDead = false       //Only var that changes from default
+    window.isDead = false       //A var that changes from default
     window.intermission = false //Other var that changes from default
     window.archers = 0
     window.archerUpgrade = 0
@@ -150,9 +148,10 @@ function spawnEnemy(enemy) {
 function nextWave() {
     window.waveNumber += 1
     document.getElementById("waveCounter").innerText = "Wave: " + window.waveNumber
-    window.enemyBalance += Math.floor((window.waveNumber * window.enemyModifier) + 10)
+    window.enemyBalance = Math.floor(window.waveNumber * (1.1 + (0.3 * window.waveNumber))+10) 
+    // \left(x\cdot\left(1.1+\left(0.3\cdot x\right)\right)\right)+10\ (paste into Demos)
+    if (window.enemyBalance >= 150) {window.enemyBalance = 150} // MAX balance
     console.log("Enemy has " + window.enemyBalance + " points to buy troops.");
-    window.enemyModifier += (window.enemyModifier - 1)
     spawnable = []
 
     // Spawn list contains everything that can be afforded
@@ -207,14 +206,20 @@ function handleEnemies() {
             if (sprites[item].name == spawnable[tryEnemy] && sprites[item].price <= window.enemyBalance) {
                 spawnEnemy(sprites[item].name)
                 window.enemyBalance -= sprites[item].price
-                console.log("Enemy bought " + sprites[item].name.replace("image/enemies/", '').replace(".png", '') + " (Costs " + sprites[item].price + ")");
+                console.log("Enemy bought " + sprites[item].name.replace("image/enemies/", '').replace(".png", '') + " (Costs " + sprites[item].price + ")\n Enemy balance is now "+window.enemyBalance);
+            } else if (sprites[item].name == spawnable[tryEnemy]) { 
+                // There was a bug where the code would get stuck on the handleEnemies for awhile because it would roll enemies that were too expensive over and over. 
+                // Now, every time the rng rolls an enemy that is too expensive, it deletes it for the rest of the wave. That way the delay is minimized
+                index = spawnable.indexOf(sprites[item].name)
+                spawnable.splice(index, 1)
+                console.log("Took "+sprites[item].name+" out of the spawnables.\n",spawnable);
             }
         }
-        speedUp = 100 * window.waveNumber
+        speedUp = 150 * window.waveNumber // Max speed after wave 26
         if (speedUp > 4000) {
             speedUp = 4000
         }
-        setTimeout(handleEnemies, Math.floor(Math.random() * 4500) - speedUp)
+        setTimeout(handleEnemies, Math.floor(Math.random() * (4500 - speedUp)+200))
     } else {
         checkFinalDeath()
     }
@@ -387,7 +392,7 @@ function waveSkip() {
     skipTo = document.getElementsByTagName("input")[0].value
     console.log('Skipping to wave', skipTo);
     window.waveNumber = (skipTo - 1)
-    changeGold(10 * skipTo)
+    changeGold(25 * skipTo)
     setTimeout(() => {
         document.getElementsByTagName("input")[0].style.visibility = "hidden"
         document.getElementById("waveCheatButton").style.visibility = "hidden"
@@ -397,7 +402,8 @@ function waveSkip() {
 
 // Upgrades 
 
-// Bow upgrade, makes bow do 20% more dmg
+// Bow upgrade, makes bow do 10% more dmg
+// Can be upgraded Endlessly
 function tryUpgradeBow() {
     if (window.isDead == false) {
         if (window.playerGold > window.bowUpgradePrice) {
@@ -440,9 +446,21 @@ function hireArcher() {
 }
 // handles archers firing and dealing dmg
 function archerFires() {
+    // Following 5 lines updates the "Archer List" which contains classes of all active archers, for use in animations
+    window.archerList = []
+    for (i=1;i!=11;i++){
+        if (document.getElementsByClassName("bow"+i)[0].style.visibility == "visible") {
+            window.archerList.unshift("bow"+i)
+        }
+    }
     setTimeout(() => {
         damageEnemy()
         console.log("An archer fired!");
+        // randArch = window.archerList[Math.floor(Math.random() * window.archerList.length() )+1]
+        // console.log(randArch);
+        // defaultPos = Number(document.getElementsByClassName(randArch)[0].style.left)
+        // console.log(defaultPos);
+        // document.getElementsByClassName(randArch)[0].style.left = 
         if (window.archers != 0) { archerFires() }
     }, 3500 - window.archerUpgrade)
 }
